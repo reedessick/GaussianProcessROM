@@ -12,6 +12,7 @@ setup(
         description = __description__,
         scripts = [
             'bin/runalloverlaps1D_qchi.py',
+            'bin/create_WF_ROM_dataset.py',
             ],
         packages = [
             'gp_rom',

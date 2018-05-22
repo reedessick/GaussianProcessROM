@@ -5,6 +5,7 @@ import lal
 import lalsimulation as LS
 from argparse import Namespace
 import scipy.interpolate as ip
+import numpy as np
 
 def make_FDwaveform(paramdict):
     """Generate FD waveform from lal.
@@ -145,7 +146,7 @@ def interpolate_amp_phase(gA,gPhi,Mf,h):
     phiI = ip.InterpolatedUnivariateSpline(Mf[mask], phi[mask])
     return [ampI(gA), phiI(gPhi)]
 
-def get_sparse_waveform(paramdict,**kwargs):
+def get_sparse_waveform(paramdict,g_min=0.004,g_max=0.3,dgA=0.001,dgP=0.001,**kwargs):
     """
     Given a dictionary of binary parameters, 
     compute the sparse waveform.  
@@ -160,9 +161,11 @@ def get_sparse_waveform(paramdict,**kwargs):
     phi: list of phases
     """
     f,hp,hc = make_FDwaveform(paramdict)
-    gA = get_geometric_freq 
-
-    
+    Mf = f*(paramdict['m1']+paramdict['m2'])*lal.MTSUN_SI
+    gA = get_geometric_freq(g_min,g_max,dgA) 
+    gPhi = get_geometric_freq(g_min,g_max,dgP)
+    ampp,phip = interpolate_amp_phase(gA,gPhi,Mf,hp) 
+    return ampp, phip 
 
 
 

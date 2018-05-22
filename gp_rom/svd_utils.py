@@ -46,7 +46,7 @@ def svd_projection(matrix, center=True,get_errors=False, error_level=1e-5,error_
     c = np.array(map(lambda a: np.dot(a, V), A))
     
     if get_errors == True:
-        if error_type='relative':
+        if error_type=='relative':
             # constant relative error
             c_variance = np.array(map(lambda a: np.diag(np.dot(V.T,np.dot(np.diag(np.power(a,2.)),V))),error_level*A))
         else:
@@ -114,7 +114,7 @@ def svd_deproject(c,V,errors=None):
     a_variance: marginal variances on data
     """
     a = np.array(map(lambda A: np.dot(A, V.T), a)) 
-    if errors not None:
+    if not errors==None:
         a_variance = np.array(map(lambda A: np.diag(np.dot(V.T,np.dot(np.diag(np.power(A,2.)),V))),errors))
         return a,a_variance
     else:
